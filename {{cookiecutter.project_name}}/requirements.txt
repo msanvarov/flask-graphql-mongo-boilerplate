@@ -1,0 +1,20 @@
+graphene
+python-dotenv
+bcrypt
+pymongo
+flask_graphql
+faker
+flask
+flask-script
+flask-cors
+PyJWT
+flake8
+bumpversion
+coverage
+pytest
+pytest-flask
+autopep8
+tox
+{%- if cookiecutter.sentry_sdk == "yes" %}
+sentry-sdk[flask]
+{%- endif %}

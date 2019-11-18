@@ -1,3 +1,5 @@
+# Flask Boilerplate
+
 <p align="center">
   <a href="https://palletsprojects.com/p/flask/" target="blank"><img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1518503935975/S1_-_WePM.png" width="320" alt="Flask Logo" /></a>
 </p>
@@ -13,64 +15,15 @@ This boilerplate leverages the Flask framework to quickly prototype backend appl
 
 ---
 
-### 🍬 Features
-
-- Based on [Flask](https://github.com/pallets/flask).
-
-- GraphQL Framework for Python, [Graphene](https://github.com/graphql-python/graphene). With GraphQL support for Flask in the form of [Flask-GraphQL](https://github.com/graphql-python/flask-graphql).
-
-- [PyJWT](https://github.com/jpadilla/pyjwt) library that allows encoding and decoding JSON Web Tokens (JWT).
-
-- [PyMongo](https://github.com/mongodb/mongo-python-driver), the official Python driver for MongoDB.
-
-- [Faker](https://github.com/joke2k/faker) for generating fake data in migrations.
-
----
-
-### 🌱 Project Structure
-
-A quick synopsis of the folder structure.
-
-```text
-.
-├── Dockerfile
-├── LICENSE
-├── Pipfile
-├── Pipfile.lock
-├── README.md
-├── docker-compose.yml
-├── manage.py               // flask scripts
-├── renovate.json
-├── requirements.txt
-└── server
-    ├── __init__.py
-    ├── constants.py        // environment variables from .env file
-    ├── resolvers
-    │   ├── __init__.py
-    │   └── auth.py         // authentication resolver
-    ├── schemas
-    │   ├── __init__.py
-    │   └── profile.py      // profile schema
-    ├── tests
-    │   ├── __init__.py
-    │   └── test_e2e.py     // e2e testing
-    └── utils
-        ├── __init__.py
-        ├── database.py     // database utility functions
-        ├── email.py        // email utility functions
-        ├── passwords.py    // hashing passwords
-        └── webtokens.py    // encrypting/decrypting web tokens
-```
-
 ### 🛠️ Prerequisites
 
 #### 💻 Non Docker
 
-- Please make sure to have MongoDB locally, or utilize Mongo on the cloud by configuring a cluster in [atlas](https://www.mongodb.com/cloud/atlas). Then grab the connection string and modify the following [line](https://github.com/msanvarov/flask-graphql-mongo/blob/master/.env.example#L6) in the configuration file before copying to the `.env` file.
+- Please make sure to have MongoDB locally, or utilize Mongo on the cloud by configuring a cluster in [atlas](https://www.mongodb.com/cloud/atlas). Then grab the connection string and modify the `mongo_url` when configuring the project.
 
 #### 🐳 Docker
 
-- Please make sure to have docker desktop setup on any preferred operating system to quickly compose the required dependencies. Then follow the docker procedure outlined below.
+- Please make sure to have docker desktop setup on any preferred operating system to quickly compose the whole project. Then follow the docker procedure outlined below.
 
 **Note: Despite the fact that Docker Desktop comes free for both Mac and Windows, it only supports the Pro edition of Windows 10. A common workaround is to get Docker Toolbox which will bypass the Windows 10 Pro restriction by executing Docker in a VM.**
 
@@ -80,37 +33,25 @@ A quick synopsis of the folder structure.
 
 #### Manual Deployment without Docker
 
-- Create a `.env` file using the `cp .env.example .env` command and replace the existing env variables with preferred settings.
-
-- Install dependencies either with pip or pipenv `pip install -r requirements.txt` or using `pipenv`: `pip install pipenv && pipenv install`
-
-- Start the app in development mode by using `python manage.py runserver` or `pipenv run python manage.py runserver` (the app will be exposed on the port 5000; not to conflict with React, Angular, or Vue)
+- Install cookiecutter universally to scaffold the project.
 
 ```bash
-# copy .env.example files
-$ cp .env.example .env
+# download cookiecutter
+$ python3 -m pip install cookiecutter
 
-# download dependencies with pip
-$ python3 -m pip install -r requirements.txt
-
-# start web server
-$ python manage.py runserver
+# scaffold app with cookiecutter
+$ cookiecutter https://github.com/msanvarov/flask-graphql-mongo-boilerplate
 ```
 
 #### 🐳 Deploying with Docker
 
-- Execute the following command in-app directory:
-
-```bash
-# creates and loads the docker container with required configuration
-$ docker-compose up -d
-```
+- When scaffolding the application using `cookiecutter`, select the option for `docker_development`.
 
 - Then the web application, and MongoDB will be available to [http://localhost:5000](http://localhost:5000/), [http://localhost:27017](http://localhost:27017/) respectively.
 
 ### 🔒 Environment Configuration
 
-By default, the application comes with a configuration module that can read every environment variable from the `.env` file. The [constants.py file](https://github.com/msanvarov/flask-graphql-mongo/blob/master/constants.py) is responsible for mapping the environment variables to a python dictionary that can be accessed anywhere in the application.
+By default, the application comes with a configuration module that can read every environment variable from the `.env` file. The [constants.py file](https://github.com/msanvarov/flask-graphql-mongo-boilerplate/blob/cookiecutter/%7B%7Bcookiecutter.project_name%7D%7D/%7B%7Bcookiecutter.app_name%7D%7D/constants.py) is responsible for mapping the environment variables to a python dictionary that can be accessed anywhere in the application.
 
 **APP_URL** - the base URL for the application. Made mainly for E2E testing.
 
@@ -132,6 +73,84 @@ By default, the application comes with a configuration module that can read ever
 
 ---
 
+### 🍬 Features
+
+- Based on [Flask](https://github.com/pallets/flask).
+
+- GraphQL Framework for Python, [Graphene](https://github.com/graphql-python/graphene). With GraphQL support for Flask in the form of [Flask-GraphQL](https://github.com/graphql-python/flask-graphql).
+
+- [PyJWT](https://github.com/jpadilla/pyjwt) library that allows encoding and decoding JSON Web Tokens (JWT).
+
+- [PyMongo](https://github.com/mongodb/mongo-python-driver), the official Python driver for MongoDB.
+
+- [Sentry SDK](http://sentry.io/) for tracking errors externally.
+ 
+- [Tox](https://tox.readthedocs.io/en/latest/) to standardize Python testing.
+ 
+- [Faker](https://github.com/joke2k/faker) for generating fake data in migrations.
+
+---
+
+### 🌱 Project Structure
+
+A quick synopsis of the folder structure.
+
+```text
+.
+├── LICENSE
+├── cookiecutter.json
+├── hooks
+│   ├── post_gen_project.sh
+│   └── pre_gen_project.py
+├── renovate.json
+└── {{cookiecutter.project_name}}
+    ├── CHANGELOG.md
+    ├── Dockerfile
+    ├── LICENSE
+    ├── Makefile
+    ├── Pipfile
+    ├── Pipfile.lock
+    ├── README.md
+    ├── docker-compose.yml
+    ├── docker-entrypoint.sh
+    ├── docs
+    │   ├── Makefile
+    │   ├── conf.py
+    │   ├── console_script_setup.rst
+    │   ├── index.rst
+    │   ├── prompts.rst
+    │   ├── pypi_release_checklist.rst
+    │   ├── readme.rst
+    │   ├── travis_pypi_setup.rst
+    │   ├── troubleshooting.rst
+    │   └── tutorial.rst
+    ├── manage.py               // flask scripts
+    ├── requirements.txt
+    ├── tests
+    │   ├── __init__.py
+    │   ├── conftest.py     // test configuration
+    │   └── test_e2e.py     // e2e testing
+    ├── tox.ini
+    └── {{cookiecutter.app_name}}
+        ├── __init__.py
+        ├── config.py
+        ├── constants.py        // environment variables from .env file
+        ├── resolvers
+        │   ├── __init__.py
+        │   └── auth.py         // authentication resolver
+        ├── schemas
+        │   ├── __init__.py
+        │   └── profile.py      // profile schema
+        └── utils
+            ├── __init__.py
+            ├── database.py     // database utility functions
+            ├── email.py        // email utility functions
+            ├── passwords.py    // hashing passwords
+            └── webtokens.py    // encrypting/decrypting web tokens
+```
+
+___
+
 ### ✅ Testing
 
 #### 🐳 Docker
@@ -139,39 +158,25 @@ By default, the application comes with a configuration module that can read ever
 Tests can be performed inside the docker container that contains the web application.
 
 ```bash
-# tests
-$ docker exec -it pytest
+# e2e tests
+$ docker exec -it {{cookiecutter.app_name}} pipenv run pytest
 ```
 
 #### Non-Docker
 
 ```bash
+# e2e tests for different python versions without pipenv
+$ tox 
+
+# e2e tests for different python versions without pipenv
+$ pipenv run tox
+
 # e2e tests without pipenv
 $ pytest
 
 # e2e tests with pipenv
 $ pipenv run pytest
 ```
-
----
-
-### 📝 GraphiQL
-
-Out of the box, the web app comes with a GraphiQL which includes a documentation explorer. With the GraphiQL IDE, querying because extremely easy and intuitive.
-
----
-
-### ✨ PyMongo
-
-PyMongo is a Python distribution containing tools for working with MongoDB. Please refer the [documentation](https://api.mongodb.com/python/current/) for further details.
-
-The configuration for PyMongo can be found in the [model utils](https://github.com/msanvarov/flask-graphql-mongo/blob/master/utils/model.py#L7).
-
----
-
-### 📃 Logs
-
-This boilerplate comes with integrated logs by werkzeug, the configurations can be found in the [_init_ file](https://github.com/msanvarov/flask-graphql-mongo/blob/master/__init__.py#L8).
 
 ---
 

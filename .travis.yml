@@ -1,15 +1,18 @@
 language: python
 
 python:
-  - "3.7"
+  - 3.7
+  - 3.6
+  - 3.5
+  - 3.4
+  - 2.7
 
-services:
-  - mongodb
-
-install:
+before_install:
+  - pip install cookiecutter
+  - cookiecutter . --no-input
   - pip install pipenv
   - pipenv install
 
-script:
-  - cp .env.example .env
-  - pipenv run pytest
+install: pip install tox-travis
+
+script: tox -c 'flask-graphql-mongo'/tox.ini

@@ -1,0 +1,11 @@
+**/.classpath
+**/.dockerignore
+**/.git
+**/.gitignore
+**/.vs
+**/.vscode
+**/bin
+**/Makefile
+**/docker-compose*
+**/Dockerfile*
+LICENSE
